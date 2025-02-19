@@ -27,7 +27,7 @@ last name.\
 • As a user I want to be able to delete a customer if they no longer wish to patron at store\
 • As a user I want to be able to view customer details and see their past and present rental
 history\
-• As a user I want to be able to indicate that a customer has returned a rented movie\
+• As a user I want to be able to indicate that a customer has returned a rented movie
 
 # Back end?
 The back end was made it flask and is in a seperate repo
