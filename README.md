@@ -1,4 +1,5 @@
-# This is for my CS 490 Class at NJIT
+# A React Frontend I made
+This is for my CS 490 Class at NJIT
 This is the rough but functional front end for the Second part of my individual project.
 
 # Premise
