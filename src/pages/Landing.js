@@ -4,6 +4,7 @@
  function Landing() {
   // This was useless and redundant
   // I thought that I would need this file but I just ended up using app as the landing page since thats where I put everything already
+  // So yeah this is a remnant of what was
   // Hi if you're reading this, I hope you are having a nice day :D
    return (
      <div>
