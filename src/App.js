@@ -48,7 +48,7 @@ useEffect(() => {
     })
     .then((data) => {
       //console.log('Fetched data:', data); // Check the structure of the fetched data
-      const sortedData = [...data].sort((a, b) => a.movies - b.movies); // Sort the copied array
+      const sortedData = [...data].sort((a, b) => b.movies - a.movies); // Sort the copied array
       //console.log('Fetched sorted data:', sortedData); // Check the structure of the fetched data
       setActor(sortedData); // Set the sorted data in state
       setLoading(false); // Stop loading
@@ -98,7 +98,7 @@ const handleActorClick = (actor) => {
     })
     .then((details2) => {
       //console.log('Fetched book details:', details2); // Log the fetched details
-      const sortedMovies = [...details2].sort((a, b) => a.rental_count - b.rental_count); // Sort the copied array
+      const sortedMovies = [...details2].sort((a, b) => b.rental_count - a.rental_count); // Sort the copied array
       //console.log('Fetched sorted data:', sortedMovies); // Check the structure of the fetched data
       setActorMovies(sortedMovies); // Assuming it's an array of one object
     })
@@ -181,7 +181,7 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
               <li key={movie.film_id}>
                 <h4>{movie.title}</h4>
                 <p><strong>Film ID:</strong> {movie.film_id}</p>
-                <p><strong>Movie Appearances:</strong> {movie.rental_count}</p>
+                <p><strong>Movie Rental Count:</strong> {movie.rental_count}</p>
               </li>
             ))}
           </ul>
