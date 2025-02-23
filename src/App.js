@@ -28,7 +28,7 @@ useEffect(() => {
     })
     .then((data) => {
       //console.log('Fetched data:', data); // Check the structure of the fetched data
-      const sortedData = [...data].sort((a, b) => a.rented - b.rented); // Sort the copied array
+      const sortedData = [...data].sort((a, b) => b.rented - a.rented); // Sort the copied array
       //console.log('Fetched sorted data:', sortedData); // Check the structure of the fetched data
       setData(sortedData); // Set the sorted data in state
       setLoading(false); // Stop loading
