@@ -76,96 +76,110 @@
           }
     };    
 
+    // bg-gray-100
+
    return (
-     <div>
+     <div className="min-h-screen bg-gray-100 p-6">
          <Navbar />
-       <h1>
+       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
          This is the Film Page
        </h1>
-       <h2>Film Search</h2>
-       <input 
-        type="text" 
-        placeholder="Movie Title" 
-        value={filmTitle} 
-        onChange={(e) => setFilmTitle(e.target.value)} 
-      />
-      <input 
-        type="text" 
-        placeholder="Actor's First Name" 
-        value={actorFirstName} 
-        onChange={(e) => setActorFirstName(e.target.value)} 
-      />
-      <input 
-        type="text" 
-        placeholder="Actor's Last Name" 
-        value={actorLastName} 
-        onChange={(e) => setActorLastName(e.target.value)} 
-      />
-      <input 
-        type="text" 
-        placeholder="Movie Genre" 
-        value={filmGenre} 
-        onChange={(e) => setFilmGenre(e.target.value)} 
-      />
-      <button onClick={fetchFilms} disabled={loading}>
-        {loading ? 'Loading...' : 'Search'}
-      </button>
-
+       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 className="text-2xl font-semibold mb-4">Film Search</h2>
+        <div className="flex space-x-2">
+          <input 
+            type="text" 
+            placeholder="Movie Title" 
+            className="border p-2 rounded-md w-1/4"
+            value={filmTitle} 
+            onChange={(e) => setFilmTitle(e.target.value)} 
+          />
+          <input 
+            type="text" 
+            placeholder="Actor's First Name" 
+            className="border p-2 rounded-md w-1/4"
+            value={actorFirstName} 
+            onChange={(e) => setActorFirstName(e.target.value)} 
+          />
+          <input 
+            type="text" 
+            placeholder="Actor's Last Name" 
+            className="border p-2 rounded-md w-1/4"
+            value={actorLastName} 
+            onChange={(e) => setActorLastName(e.target.value)} 
+          />
+          <input 
+            type="text" 
+            placeholder="Movie Genre" 
+            className="border p-2 rounded-md w-1/4"
+            value={filmGenre} 
+            onChange={(e) => setFilmGenre(e.target.value)} 
+          />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md" onClick={fetchFilms} disabled={loading}>
+            {loading ? 'Loading...' : 'Search'}
+          </button>
+          </div>
+      </div>
       {filmDetails && (
-        <div>
-          <h2>Film Details</h2>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Film Details</h2>
           {filmDetails.error ? (
-            <p>{filmDetails.error}</p>
+            <p className="text-red-600">{filmDetails.error}</p>
           ) : (
-            <div>
-              <h3>{filmDetails.film_title}</h3>
-              <p><strong>Description:</strong> {filmDetails.description}</p>
-              <p><strong>Release Year:</strong> {filmDetails.release_year}</p>
-              <p><strong>Actors:</strong> {filmDetails.actor_names}</p>
-              <p><strong>Categories:</strong> {filmDetails.categories}</p>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold text-gray-800">{filmDetails.film_title}</h3>
+              <p className="text-gray-700"><strong>Description:</strong> {filmDetails.description}</p>
+              <p className="text-gray-700"><strong>Release Year:</strong> {filmDetails.release_year}</p>
+              <p className="text-gray-700"><strong>Actors:</strong> {filmDetails.actor_names}</p>
+              <p className="text-gray-700"><strong>Categories:</strong> {filmDetails.categories}</p>
+              <div className="flex items-center space-x-3 mt-4">
               <input 
+                className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 type="number" 
                 placeholder="Customer Id" 
                 value={customerId}
                 onChange={(e) => setCustomerId(e.target.value)} 
               />
-              <button onClick={() => rentOutMovie(filmDetails.film_title, customerId)}>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition transform hover:scale-105" onClick={() => rentOutMovie(filmDetails.film_title, customerId)}>
                 Rent Movie to a Customer
               </button>
-              {message && <p>{message}</p>} {/* Display success/error messages */}
+              </div>
+              {message && <p className="mt-2 text-green-600">{message}</p>} {/* Display success/error messages */}
             </div>
           )}
         </div>
       )}
 
-      <h2>Results</h2>
+      <h2 className="text-2xl font-semibold text-gray-900 mt-6 mb-4">Results</h2>
       {films.length > 0 ? (
-        <table>
+        <div className="overflow-x-auto">
+        <table className="w-full border-collapse shadow-md rounded-lg overflow-hidden">
           <thead>
-            <tr>
-              <th>Film Info Button</th>
-              <th>Film Title</th>
-              <th>Actors</th>
-              <th>Category</th>
+            <tr className="bg-gray-100 text-gray-700">
+              <th className="p-3 text-left">Film Info Button</th>
+              <th className="p-3 text-left">Film Title</th>
+              <th className="p-3 text-left">Actors</th>
+              <th className="p-3 text-left">Category</th>
             </tr>
           </thead>
           <tbody>
             {films.map((film, index) => (
-              <tr key={index}>
-                <td>
-                  <button onClick={() => fetchFilmDetails(film.film_id)}>
+              <tr key={index} className="border-b hover:bg-gray-50">
+                <td className="p-3">
+                  <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition" onClick={() => fetchFilmDetails(film.film_id)}>
                     {film.film_title}
                   </button>
                 </td>
-                <td>{film.film_title}</td>
-                <td>{film.actor_names}</td>
-                <td>{film.category_name}</td>
+                <td className="p-3">{film.film_title}</td>
+                <td className="p-3">{film.actor_names}</td>
+                <td className="p-3">{film.category_name}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       ) : (
-        <p>No films found</p>
+        <p className="text-gray-600 text-lg">No films found</p>
       )}
        
      </div>

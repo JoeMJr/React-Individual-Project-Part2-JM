@@ -112,19 +112,21 @@ const handleActorClick = (actor) => {
 if (loading) return <p>Loading...</p>; // Display loading state
 if (error) return <p>Error: {error.message}</p>; // Display error if there's one
     
-  //
+  // className="App" bg-[#FDFD96]
   return (
-    <div className="App">
+    <div className="min-h-screen bg-gray-100 p-6">
       <Navbar />
-      <h1>Rental Movies store</h1>
-      <h2>Landing Page</h2>
-      <h2>Hello Store clerk!</h2>
-      <h2>Top 5 Movies</h2>
+      <div className="App">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">Rental Movies store</h1>
+      <h2 className="text-xl font-semibold text-gray-800">Landing Page</h2>
+      <h2 className="text-lg text-gray-700">Hello Store clerk!</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mt-6">Top 5 Movies</h2>
       {Array.isArray(data) && data.length > 0 ? (
-        <ol>
+        <ol className="space-y-3">
           {/* Iterate over the array of objects and display each film */}
           {data.map((film) => (
             <li
+              className="cursor-pointer p-3 rounded-md border hover:bg-[#8B8000] transition"
               key={film.film_id}
               onClick={() => handleFilmClick(film)} // Add onClick event
               style={{ cursor: 'pointer', margin: '10px 0' }} // Optional styling to indicate it's clickable
@@ -136,12 +138,12 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
           ))}
         </ol>
       ) : (
-        <p>No data found.</p>
+        <p className="text-gray-600">No data found.</p>
       )}
 
       {selectedFilm && filmDetails && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Details of Selected Film:</h3>
+        <div className="mt-6 bg-white shadow-md p-4 rounded-lg border border-gray-200" style={{ marginTop: '20px' }}>
+          <h3 className="text-lg font-semibold text-gray-800">Details of Selected Film:</h3>
           <p><strong>Title:</strong> {filmDetails.title || 'No title available'}</p>
           <p><strong>Category:</strong> {filmDetails.FilmCategory || 'No category available'}</p>
           <p><strong>Rating:</strong> {filmDetails.rating || 'No rating available'}</p>
@@ -151,12 +153,12 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
         </div>
       )}
 
-      <h2>Top 5 Actors</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mt-6">Top 5 Actors</h2>
       {Array.isArray(actors) && actors.length > 0 ? (
-        <ol>
-          
+        <ol className="space-y-3">
           {actors.map((actor) => (
             <li
+              className="cursor-pointer p-3 rounded-md border hover:bg-[#8B8000] transition"
               key={actor.actor_id}
               onClick={() => handleActorClick(actor)} // Add onClick event
               style={{ cursor: 'pointer', margin: '10px 0' }} // Optional styling to indicate it's clickable
@@ -168,18 +170,18 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
           ))}
         </ol>
       ) : (
-        <p>No data found.</p>
+        <p className="text-gray-600">No data found.</p>
       )}
 
       
       <ul>
       {selectedActor && actorMovies && actorMovies.length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Movies of Selected Actor:</h3>
-          <ul>
+        <div className="mt-6" style={{ marginTop: '20px' }}>
+          <h3 className="text-lg font-semibold text-gray-800">Movies of Selected Actor:</h3>
+          <ul className="space-y-3">
             {actorMovies.map((movie) => (
-              <li key={movie.film_id}>
-                <h4>{movie.title}</h4>
+              <li key={movie.film_id} className="bg-white shadow-md p-3 rounded-md border border-gray-200">
+                <h4 className="text-md font-semibold">{movie.title}</h4>
                 <p><strong>Film ID:</strong> {movie.film_id}</p>
                 <p><strong>Movie Rental Count:</strong> {movie.rental_count}</p>
               </li>
@@ -190,9 +192,10 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
 
       {/* Display a message if no movies are available for the actor */}
       {selectedActor && actorMovies && actorMovies.length === 0 && (
-        <p>No movies available for this actor.</p>
+        <p className="text-gray-600">No movies available for this actor.</p>
       )}
       </ul>
+      </div>
     </div>
   );
 }
