@@ -67,16 +67,24 @@
             if (response.ok) {
               const data = await response.json();
               setMessage(data.message); // Display success message
+              setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
             } else {
               const data = await response.json();
               setMessage(data.error || 'Something went wrong!'); // Display error message
+              setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
             }
           } catch (error) {
             setMessage('Error: ' + error.message); // Handle network or server errors
+            setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
           }
     };    
 
-    // bg-gray-100
+    //tailwind colors
+    // bg-gray-100 whole page background color
+    // #f5cb62 bg-[#f5cb62] darker yellow button color
+    // #FDFD96 bg-[#FDFD96] lighter yellow
+    // #f9c414 bg-[#f9c414] even darker yellow
+    // #9b870c bg-[#9b870c] even darker darker yellow hover color
 
    return (
      <div className="min-h-screen bg-gray-100 p-6">
@@ -115,7 +123,7 @@
             value={filmGenre} 
             onChange={(e) => setFilmGenre(e.target.value)} 
           />
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md" onClick={fetchFilms} disabled={loading}>
+          <button className="bg-[#f5cb62] hover:bg-[#9b870c] text-white px-4 py-2 rounded-md" onClick={fetchFilms} disabled={loading}>
             {loading ? 'Loading...' : 'Search'}
           </button>
           </div>
@@ -134,17 +142,17 @@
               <p className="text-gray-700"><strong>Categories:</strong> {filmDetails.categories}</p>
               <div className="flex items-center space-x-3 mt-4">
               <input 
-                className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 type="number" 
                 placeholder="Customer Id" 
                 value={customerId}
                 onChange={(e) => setCustomerId(e.target.value)} 
               />
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition transform hover:scale-105" onClick={() => rentOutMovie(filmDetails.film_title, customerId)}>
+              <button className="bg-[#f5cb62] text-white px-4 py-2 rounded-md shadow-md hover:bg-[#9b870c] transition transform hover:scale-105" onClick={() => rentOutMovie(filmDetails.film_title, customerId)}>
                 Rent Movie to a Customer
               </button>
               </div>
-              {message && <p className="mt-2 text-green-600">{message}</p>} {/* Display success/error messages */}
+              {message && <p className="mt-2 text-green-600 shadow-md animate-fadeIn">{message}</p>} {/* Display success/error messages */}
             </div>
           )}
         </div>
@@ -166,7 +174,7 @@
             {films.map((film, index) => (
               <tr key={index} className="border-b hover:bg-gray-50">
                 <td className="p-3">
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition" onClick={() => fetchFilmDetails(film.film_id)}>
+                  <button className="bg-[#f5cb62] text-white px-3 py-1 rounded-md hover:bg-[#9b870c] transition" onClick={() => fetchFilmDetails(film.film_id)}>
                     {film.film_title}
                   </button>
                 </td>

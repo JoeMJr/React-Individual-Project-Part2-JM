@@ -111,13 +111,23 @@ const handleActorClick = (actor) => {
 
 if (loading) return <p>Loading...</p>; // Display loading state
 if (error) return <p>Error: {error.message}</p>; // Display error if there's one
-    
+  
+  // This was inital testing of things
   // className="App" bg-[#FDFD96]
+  // f5cb62 bg-[#f5cb62] darker yellow
+  // bg-[#FDFD96] lighter yellow
+  //tailwind colors
+  // bg-gray-100 whole page background color
+  // #FDFD96 bg-[#FDFD96] lighter yellow
+  // #f5cb62 bg-[#f5cb62] darker yellow button color
+  // #f9c414 bg-[#f9c414] even darker yellow
+  // #9b870c bg-[#9b870c] even darker darker yellow hover color
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <Navbar />
       <div className="App">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Rental Movies store</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">IndiviFilms: A Rental Movies Store</h1>
       <h2 className="text-xl font-semibold text-gray-800">Landing Page</h2>
       <h2 className="text-lg text-gray-700">Hello Store clerk!</h2>
       <h2 className="text-xl font-semibold text-gray-800 mt-6">Top 5 Movies</h2>
@@ -126,7 +136,7 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
           {/* Iterate over the array of objects and display each film */}
           {data.map((film) => (
             <li
-              className="cursor-pointer p-3 rounded-md border hover:bg-[#8B8000] transition"
+              className="cursor-pointer p-3 rounded-md border hover:bg-[#f9c414] transition"
               key={film.film_id}
               onClick={() => handleFilmClick(film)} // Add onClick event
               style={{ cursor: 'pointer', margin: '10px 0' }} // Optional styling to indicate it's clickable
@@ -158,7 +168,7 @@ if (error) return <p>Error: {error.message}</p>; // Display error if there's one
         <ol className="space-y-3">
           {actors.map((actor) => (
             <li
-              className="cursor-pointer p-3 rounded-md border hover:bg-[#8B8000] transition"
+              className="cursor-pointer p-3 rounded-md border hover:bg-[#f9c414] transition"
               key={actor.actor_id}
               onClick={() => handleActorClick(actor)} // Add onClick event
               style={{ cursor: 'pointer', margin: '10px 0' }} // Optional styling to indicate it's clickable

@@ -17,7 +17,7 @@
     const [email, setEmail] = useState('');
     const [storeId, setStoreId] = useState('');
     const [addressId, setAddressId] = useState('');
-    const [active, setActive] = useState(true); // Default to active
+    const [active, setActive] = useState(true); 
     const [message, setMessage] = useState('');
     //
     const [customerId, setCustomerId] = useState("");
@@ -26,11 +26,11 @@
     //
     const [isEditing, setIsEditing] = useState(false);
     //
-    const [movies, setMovies] = useState([]); // State to hold the fetched data
-    const [loading, setLoading] = useState(false); // State for loading indicator
-    const [error, setError] = useState(null); // State to hold any error message
+    const [movies, setMovies] = useState([]); 
+    const [loading, setLoading] = useState(false); 
+    const [error, setError] = useState(null); 
     //
-    const [firstInteract, setfirstInteract] = useState(false); // Default to active
+    const [successMessage, setSuccessMessage] = useState("");
     //
     var count = 0;
     //
@@ -202,7 +202,7 @@
         }
       };
       
-      // putting this back
+      // putting this back I'm currently too lazy to change this if it just works
       useEffect(() => {
         fetchCustomers();
       }, [currentPage, customerIdSearch, firstNameSearch, lastNameSearch, itemsPerPage]); // Fetch when any of these values change
@@ -210,9 +210,8 @@
 
       const handleReturn = async (customerId, filmTitle) => {
         // Logic to mark the movie as returned
-        // This could involve updating the state, calling an API, etc.
         console.log(`Returning movie ${filmTitle} for customer ${customerId}`);
-        // Optionally, update the status of the movie in the state
+        // Update the status of the movie in the state
         const data = {
           customer_id: customerId,
           movie_title: filmTitle,
@@ -223,33 +222,43 @@
           const response = await fetch('http://localhost:5000/customer-rent-return', {
             method: 'PATCH',
             headers: {
-              'Content-Type': 'application/json', // Specify that we're sending JSON data
+              'Content-Type': 'application/json', // header
             },
-            body: JSON.stringify(data), // Convert the data object to a JSON string
+            body: JSON.stringify(data), // Data object to Json String
           });
       
-          // Check if the response is successful (status code 200-299)
           if (response.ok) {
-            const responseData = await response.json(); // Parse the JSON response
+            const responseData = await response.json(); 
             console.log('Movie status updated:', responseData);
-            // You can update your UI or state based on the response here
-          } else {
+            // Finally getting around to the ui part of this
+            setMovies((prevMovies) =>
+              prevMovies.map((movie) =>
+                movie.customer_id === customerId && movie.movie_title === filmTitle
+                  ? { ...movie, rental_status: "Past Rental (Returned)" }
+                  : movie
+              )
+            );
+            // Show Success Message
+            setSuccessMessage(`"${filmTitle}" has been successfully returned!`);
+            setTimeout(() => setSuccessMessage(""), 5000); // Hide message after 5 seconds
+            //
+          } 
+          else {
             console.error('Failed to update the rental status', response.statusText);
           }
         } 
         catch (error) {
           console.error('Error making PATCH request:', error);
         }
-      };
+      }; // END OF HANDLE RETURN
 
-        // Render loading or error message
-        if (loading) {
-            return <div>Loading...</div>;
-        }
-
-        if (error) {
-            return <div>Error: {error}</div>;
-        }
+      // Loading and Error Bits
+      if (loading) {
+        return <div>Loading...</div>;
+      }
+      if (error) {
+        return <div>Error: {error}</div>;
+      }
       
       // Handle page change (pagination)
       const handlePageChange = (page) => {
@@ -263,9 +272,15 @@
       function doPageChange() {
         //console.log("Current page: ", currentPage)
         fetchCustomers();
+        setMovies([]); // Adding this to hide customer rental movies after page change
       }
 
-      //
+    //tailwind colors
+    // bg-gray-100 whole page background color
+    // #f5cb62 bg-[#f5cb62] darker yellow button color
+    // #FDFD96 bg-[#FDFD96] lighter yellow
+    // #f9c414 bg-[#f9c414] even darker yellow
+    // #9b870c bg-[#9b870c] even darker darker yellow hover color
 
    return (
      <div className="p-6 bg-gray-100 min-h-screen">
@@ -275,6 +290,7 @@
        </h1>
        <h2 className="text-2xl font-semibold text-gray-800 mb-3">Customer List</h2>
        {/* Search form */}
+       <h3 className="block text-gray-800 font-semibold mb-1">Customer Search</h3>
       <form
         className="bg-white p-4 shadow-md rounded-lg mb-6 grid grid-cols-1 md:grid-cols-3 gap-4"
         onSubmit={(e) => {
@@ -315,7 +331,7 @@
         </div>
         <div className="flex items-end">
         <button type="submit"
-        className="w-full bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition transform hover:scale-105">Search</button>
+        className="w-full bg-[#f5cb62] text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-[#9b870c] transition transform hover:scale-105">Search</button>
         </div>
       </form>
 
@@ -354,6 +370,12 @@
         
         {/* Rented Movie Details */}
         <h2 className="text-2xl font-bold text-gray-800 mt-6 mb-4">Customer Rental Detail List</h2>
+        {/* Success Message */}
+        {successMessage && (
+          <div className="mb-4 p-3 bg-green-100 text-green-800 font-semibold rounded-lg shadow-md animate-fadeIn">
+            ✅ {successMessage}
+          </div>
+        )}
         {movies.length > 0 ? (
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {movies.map((movie) => (
@@ -363,7 +385,7 @@
                             <p className={`text-sm font-medium ${movie.rental_status === 'Past Rental (Returned)' ? 'text-green-600' : 'text-red-600'}`}><strong>Rental Status:</strong> {movie.rental_status}</p>
                             <p className="text-gray-700"><strong>Return Date:</strong> {new Date(movie.return_date).toLocaleDateString()}</p>
                             {movie.rental_status !== 'Past Rental (Returned)' && (
-                              <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition transform hover:scale-105" onClick={() => handleReturn(movie.customer_id, movie.movie_title)}>Return Movie</button>
+                              <button className="mt-3 bg-[#f5cb62] text-white px-4 py-2 rounded-lg shadow-md hover:bg-[#9b870c] transition transform hover:scale-105" onClick={() => handleReturn(movie.customer_id, movie.movie_title)}>Return Movie</button>
                             )}
                         </li>
                     ))}
@@ -438,7 +460,7 @@
                 onChange={(e) => setActive(e.target.checked)}
               />
             </div>
-            <button type="submit" className="col-span-2 bg-blue-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition">Add Customer</button>
+            <button type="submit" className="col-span-2 bg-[#f5cb62] text-white font-semibold px-4 py-2 rounded-md hover:bg-[#9b870c] transition">Add Customer</button>
           </form>
         </div>
       )}
@@ -450,7 +472,7 @@
           <form
            className="grid grid-cols-1 md:grid-cols-2 gap-4"
             onSubmit={(e) => {
-                e.preventDefault(); // Prevent default form submission
+                e.preventDefault();
                 const updatedData = {
                 firstName,
                 lastName,
@@ -459,7 +481,6 @@
                 addressId,
                 active,
                 };
-                // Now call updateCustomer with the customerId and updatedData
                 updateCustomer(customerId, updatedData);
             }}
             >
@@ -531,12 +552,12 @@
                 onChange={(e) => setActive(e.target.checked)}
               />
             </div>
-            <button type="submit" className="col-span-2 bg-blue-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition">Update Customer</button>
+            <button type="submit" className="col-span-2 bg-[#f5cb62] text-white font-semibold px-4 py-2 rounded-md hover:bg-[#9b870c] transition">Update Customer</button>
           </form>
         </div>
       )}
 
-      {message && <p>{message}</p>}
+      {message && <p className="mt-2 shadow-md animate-fadeIn">{message}</p>}
 
       {/* Button to toggle between Add and Edit forms */}
       <button onClick={() => setIsEditing(!isEditing)} className="px-4 py-2 bg-gray-400 text-white rounded-md disabled:opacity-50">
