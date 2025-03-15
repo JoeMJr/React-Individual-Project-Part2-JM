@@ -21,13 +21,14 @@
     const fetchFilms = async () => {
         setLoading(true);
         try {
-        const response = await axios.get('http://localhost:5000/search', {
-            params: {
-            movie_title: filmTitle,
-            first_name: actorFirstName,
-            last_name: actorLastName,
-            movie_genre: filmGenre
-            }
+          // Sending GET request
+          const response = await axios.get('http://localhost:5000/search', {
+              params: {
+              movie_title: filmTitle,
+              first_name: actorFirstName,
+              last_name: actorLastName,
+              movie_genre: filmGenre
+              }
         });
         setFilms(response.data);
         } catch (error) {
@@ -38,6 +39,7 @@
 
     const fetchFilmDetails = async (filmId) => {
         try {
+          // Sending GET request
           const response = await axios.get(`http://localhost:5000/filmdet/${filmId}`);
           console.log("category?", response.data.categories)
           setFilmDetails(response.data);
@@ -54,7 +56,7 @@
           };
       
           try {
-            // Sending POST request to Flask backend
+            // Sending POST request
             const response = await fetch('http://localhost:5000/rent-film', {
               method: 'POST',
               headers: {
@@ -66,16 +68,16 @@
             // Handle the response
             if (response.ok) {
               const data = await response.json();
-              setMessage(data.message); // Display success message
+              setMessage(data.message);
               setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
             } else {
               const data = await response.json();
-              setMessage(data.error || 'Something went wrong!'); // Display error message
-              setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
+              setMessage(data.error || 'Something went wrong!'); 
+              setTimeout(() => setMessage(""), 5000); 
             }
           } catch (error) {
-            setMessage('Error: ' + error.message); // Handle network or server errors
-            setTimeout(() => setMessage(""), 5000); // Hide message after 5 seconds
+            setMessage('Error: ' + error.message); 
+            setTimeout(() => setMessage(""), 5000); 
           }
     };    
 
@@ -141,6 +143,7 @@
               <p className="text-gray-700"><strong>Actors:</strong> {filmDetails.actor_names}</p>
               <p className="text-gray-700"><strong>Categories:</strong> {filmDetails.categories}</p>
               <div className="flex items-center space-x-3 mt-4">
+              
               <input 
                 className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 type="number" 
@@ -151,6 +154,7 @@
               <button className="bg-[#f5cb62] text-white px-4 py-2 rounded-md shadow-md hover:bg-[#9b870c] transition transform hover:scale-105" onClick={() => rentOutMovie(filmDetails.film_title, customerId)}>
                 Rent Movie to a Customer
               </button>
+
               </div>
               {message && <p className="mt-2 text-green-600 shadow-md animate-fadeIn">{message}</p>} {/* Display success/error messages */}
             </div>

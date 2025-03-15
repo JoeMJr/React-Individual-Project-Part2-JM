@@ -68,7 +68,8 @@
           console.error('Error adding customer:', error);
           setMessage('Error adding customer!');
         }
-      };    
+      };  // END OF HANDLE SUBMIT
+       
     //
     const updateCustomer = async (customerId, updatedData) => {
         try {
@@ -113,7 +114,7 @@
         } catch (error) {
           console.error('Error updating customer:', error);
         }
-      };
+      }; // END OF UPDATE
 
       // Delete customer function
   const deleteCustomer = async (customerId) => {
@@ -136,7 +137,8 @@
       setErrorMessage('There was an error deleting the customer.');
       console.error('Error deleting customer:', error);
     }
-  };
+  }; // END OF DELETE CUSTOMER
+
     // Fetch data from Flask backend
     //fetch(`/api/customers?page=${page}&per_page=3`);
     // `/customer?page=${currentPage}&per_page=${itemsPerPage}`
@@ -160,7 +162,8 @@
         catch (error) {
           console.error('There was an error fetching the data!', error);
         }
-      };
+      }; // END OF FETCH CUSTOMERS
+
       //
       /* Fetching Customer Rent Data */
         const fetchCustomerRentData = async (customerId) => {
@@ -189,7 +192,7 @@
         //
         
 
-        //fetchCustomers();
+      //fetchCustomers();
       // Handle search field change
       const handleSearchChange = (e) => {
         const { name, value } = e.target;
@@ -202,6 +205,7 @@
         }
       };
       
+      // Search (Searches the DB every time I know this is ineffient as hell)
       // putting this back I'm currently too lazy to change this if it just works
       useEffect(() => {
         fetchCustomers();

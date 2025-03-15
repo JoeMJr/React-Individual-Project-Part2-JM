@@ -61,7 +61,7 @@ useEffect(() => {
 
 
 
-}, []); // Empty dependency array ensures it runs once when the component mounts
+}, []); // END OF USE EFFECT
 
 const handleFilmClick = (film) => {
   //console.log('Clicked film:', film);  // You can replace this with any action you want
@@ -83,7 +83,7 @@ const handleFilmClick = (film) => {
       //console.error('There was an error fetching film details!', error);
       setFilmDetails(null); // Set to null in case of error
     });
-};
+}; // END OF FILM CLICK
 
 const handleActorClick = (actor) => {
   //console.log('Clicked Actor:', actor);
@@ -106,7 +106,7 @@ const handleActorClick = (actor) => {
       //console.error('There was an error fetching book details!', error);
       setActorMovies(null); // Set to null in case of error
     });
-};
+};  // END OF HANDLE ACTOR CLICK
 
 
 if (loading) return <p>Loading...</p>; // Display loading state
